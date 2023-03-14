@@ -1,3 +1,5 @@
 *.csv
 /tensorflow
 /my_dir
+/logs
+/Tuner
