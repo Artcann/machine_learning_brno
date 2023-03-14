@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from keras.models import Sequential
+from keras.layers import Dense
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
