@@ -3,3 +3,5 @@
 /my_dir
 /logs
 /Tuner
+*.pgn*
+*.npz
