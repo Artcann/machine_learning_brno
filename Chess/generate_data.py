@@ -2,7 +2,13 @@ import chess
 import chess.pgn
 import numpy as np
 import zstandard as zstd
+import matplotlib.pyplot as plt
 
+def sigmoid(x):
+  if x < 0:
+      return np.exp(x) / (1 + np.exp(x))
+  else:
+      return 1/(1+np.exp(-x))
 
 def square_to_index(square):
     return chess.square_rank(square), chess.square_file(square)
@@ -39,17 +45,34 @@ with open("Chess/raw/lichess_db_standard_rated_2016-12.pgn.zst", 'rb') as ifh, o
     dctx.copy_stream(ifh, ofh)
 
 
-file_empty = False
 parsed_games = []
+ratings = []
+normalized_rating = []
 
 decompressed_file = open("Chess/training_data/pgn/lichess_db_standard_rated_2016-12.pgn")
 
-while not file_empty:
+i = 0
+j = 0
+
+while i < 10000:
     game = chess.pgn.read_game(decompressed_file)
     if game is None:
-        file_empty = True
-    parsed_games.append(get_bitmap(game.board()))
+        break
+    
+    if not game.end().eval() == None:
+        board = game.board()
+        for move in game.mainline():
+            board.push(move.move)
+            if not move.eval().relative.score() == None and not():
+                parsed_games.append([get_bitmap(board), (move.eval().relative.wdl().expectation() - 0.5) * 2])
 
-print(parsed_games)
+
+    print("Parsed game #" + str(i))
+
+    i += 1
+
+#print(*parsed_games, file=open("output2.pgn", "w"), sep="\n\n", end="\n\n")
+
+parsed_games = np.array(parsed_games, dtype=object)
 
 np.savez("Chess/training_data/bitmaps/lichess_2023_01.npz", *parsed_games)
