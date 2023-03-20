@@ -14,7 +14,7 @@ def build_model(layer_size, layer_nb):
 
     model.add(Flatten())
     model.add(Dense(64, activation="relu"))
-    model.add(Dense(1, activation="sigmoid"))
+    model.add(Dense(1, activation="tanh"))
 
     return model
 
