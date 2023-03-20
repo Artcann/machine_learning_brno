@@ -2,7 +2,7 @@
 /tensorflow
 /my_dir
 /logs
-/Tuner
+*/Tuner
 *.pgn*
 *.npz
 */dataset
